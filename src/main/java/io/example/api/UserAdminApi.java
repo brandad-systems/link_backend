@@ -56,4 +56,9 @@ public class UserAdminApi {
         return new ListResponse<>(userService.searchUsers(request.getPage(), request.getQuery()));
     }
 
+    @GetMapping("details")
+    public UserView getDetails(){
+        return userService.getCurrentUserDetails();
+    }
+
 }

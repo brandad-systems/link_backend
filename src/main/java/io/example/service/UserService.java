@@ -11,6 +11,7 @@ import io.example.domain.model.User;
 import io.example.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -107,6 +108,11 @@ public class UserService implements UserDetailsService {
     public List<UserView> searchUsers(Page page, SearchUsersQuery query) {
         List<User> users = userRepo.searchUsers(page, query);
         return userViewMapper.toUserView(users);
+    }
+
+    public UserView getCurrentUserDetails() {
+        User userDetails=  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return this.getUser(userDetails.getId());
     }
 
 }
