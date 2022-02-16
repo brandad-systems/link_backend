@@ -1,7 +1,8 @@
 package io.example.configuration.security;
 
 import io.example.repository.UserRepo;
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -31,9 +32,10 @@ import static java.lang.String.format;
         jsr250Enabled = true,
         prePostEnabled = true
 )
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final Logger logger;
+
     private final UserRepo userRepo;
     private final JwtTokenFilter jwtTokenFilter;
 
@@ -42,12 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${springdoc.swagger-ui.path}")
     private String swaggerPath;
 
-    public SecurityConfig(Logger logger,
+    public SecurityConfig(
                           UserRepo userRepo,
                           JwtTokenFilter jwtTokenFilter) {
         super();
 
-        this.logger = logger;
+
         this.userRepo = userRepo;
         this.jwtTokenFilter = jwtTokenFilter;
 
@@ -88,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, ex) -> {
-                            logger.error("Unauthorized request - {}", ex.getMessage());
+                            log.error("Unauthorized request - {}", ex.getMessage());
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
                         }
                 )
