@@ -10,19 +10,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-
-
     private final ProductRepo productRepo;
 
     @Transactional
-    public ProductView create(String authHeader, ProductView productView) {
-
+    public ProductView create(ProductView productView) {
+        // Get User via Auth
         User user = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null
@@ -31,6 +28,7 @@ public class ProductService {
             user = (User) authentication.getPrincipal();
         }
 
+        // Convert ProductView to Product
         Product product = new Product();
         product.setTitle(productView.getTitle());
         product.setDescription(productView.getDescription());
@@ -42,6 +40,7 @@ public class ProductService {
 
         Product savedProduct = productRepo.save(product);
 
+        // Return PruductView from saved Product
         ProductView newProductView = new ProductView();
         newProductView.setProductId(savedProduct.getProductId());
         newProductView.setTitle(savedProduct.getTitle());

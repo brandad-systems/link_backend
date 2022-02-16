@@ -1,4 +1,3 @@
-
 ### Create Product
 POST http://localhost:8080/api/product
 Content-Type: application/json
@@ -6,8 +5,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjO
 
 {
 
-  "title": "new prod 231",
-  "description": "prod desc 314",
+  "title": "new product 1",
+  "description": "prod desc",
   "category": "Electronics/Audio",
   "pricePerDay": 56,
   "condition": "NEU",

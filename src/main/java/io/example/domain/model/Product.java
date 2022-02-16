@@ -1,13 +1,11 @@
 package io.example.domain.model;
 
-import io.example.domain.enums.Category;
 import io.example.domain.enums.Condition;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.List;
 
 @Document(collection = "products")
