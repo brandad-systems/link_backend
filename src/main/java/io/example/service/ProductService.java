@@ -5,6 +5,7 @@ import io.example.domain.enums.Condition;
 import io.example.domain.model.Product;
 import io.example.domain.model.User;
 import io.example.repository.ProductRepo;
+import io.example.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,13 +21,7 @@ public class ProductService {
     @Transactional
     public ProductView create(ProductView productView) {
         // Get User via Auth
-        User user = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null
-                && authentication.getPrincipal() != null
-                && authentication.getPrincipal() instanceof User) {
-            user = (User) authentication.getPrincipal();
-        }
+        User user = Utils.getUser();
 
         // Convert ProductView to Product
         Product product = new Product();
