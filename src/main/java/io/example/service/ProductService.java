@@ -41,7 +41,7 @@ public class ProductService {
 
         Product savedProduct = productRepo.save(product);
 
-        // Return PruductView from saved Product
+        // Return ProductView from saved Product
         ProductView newProductView = new ProductView();
         newProductView.setId(savedProduct.getProductId().toString());
         newProductView.setTitle(savedProduct.getTitle());
