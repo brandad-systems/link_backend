@@ -1,5 +1,6 @@
 package io.example.configuration;
 
+import io.example.domain.exception.MissingArgumentException;
 import io.example.domain.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -98,6 +99,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body(new ApiCallError<>("Access denied!", List.of(ex.getMessage())));
+    }
+
+    @ExceptionHandler(MissingArgumentException.class)
+    public ResponseEntity<ApiCallError<String>> handleMissingArgumentException(HttpServletRequest request, MissingArgumentException ex) {
+        logger.error("handleMissingArgumentException {}\n", request.getRequestURI(), ex);
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ApiCallError<>("Argument missing!", List.of(ex.getMessage())));
     }
 
     @ExceptionHandler(Exception.class)

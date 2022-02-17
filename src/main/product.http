@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
 
 {
-  "title": "new product 9",
+  "title": "new product 10",
   "description": "prod desc",
   "category": "Electronics/Audio",
   "pricePerDay": 56,
@@ -18,4 +18,19 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjO
 POST http://localhost:8080/api/images
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
 
+
+### Create Invalid Product
+POST http://localhost:8080/api/product
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
+
+{
+  "description": "prod desc",
+  "category": "Electronics/Audio",
+  "pricePerDay": 56,
+  "condition": "NEU",
+  "pictureIds": [
+    "123", "456"
+  ]
+}
 
