@@ -5,8 +5,7 @@ import io.example.domain.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -26,13 +25,12 @@ import java.util.Map;
 import static java.util.Optional.ofNullable;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
-
-    private final Logger logger = LogManager.getLogger();
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiCallError<String>> handleNotFoundException(HttpServletRequest request, NotFoundException ex) {
-        logger.error("NotFoundException {}\n", request.getRequestURI(), ex);
+        log.error("NotFoundException {}\n", request.getRequestURI(), ex);
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -41,7 +39,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ApiCallError<String>> handleValidationException(HttpServletRequest request, ValidationException ex) {
-        logger.error("ValidationException {}\n", request.getRequestURI(), ex);
+        log.error("ValidationException {}\n", request.getRequestURI(), ex);
 
         return ResponseEntity
                 .badRequest()
@@ -50,7 +48,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ApiCallError<String>> handleMissingServletRequestParameterException(HttpServletRequest request, MissingServletRequestParameterException ex) {
-        logger.error("handleMissingServletRequestParameterException {}\n", request.getRequestURI(), ex);
+        log.error("handleMissingServletRequestParameterException {}\n", request.getRequestURI(), ex);
 
         return ResponseEntity
                 .badRequest()
@@ -59,7 +57,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiCallError<Map<String, String>>> handleMethodArgumentTypeMismatchException(HttpServletRequest request, MethodArgumentTypeMismatchException ex) {
-        logger.error("handleMethodArgumentTypeMismatchException {}\n", request.getRequestURI(), ex);
+        log.error("handleMethodArgumentTypeMismatchException {}\n", request.getRequestURI(), ex);
 
         Map<String, String> details = new HashMap<>();
         details.put("paramName", ex.getName());
@@ -73,7 +71,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiCallError<Map<String, String>>> handleMethodArgumentNotValidException(HttpServletRequest request, MethodArgumentNotValidException ex) {
-        logger.error("handleMethodArgumentNotValidException {}\n", request.getRequestURI(), ex);
+        log.error("handleMethodArgumentNotValidException {}\n", request.getRequestURI(), ex);
 
         List<Map<String, String>> details = new ArrayList<>();
         ex.getBindingResult()
@@ -94,7 +92,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiCallError<String>> handleAccessDeniedException(HttpServletRequest request, AccessDeniedException ex) {
-        logger.error("handleAccessDeniedException {}\n", request.getRequestURI(), ex);
+        log.error("handleAccessDeniedException {}\n", request.getRequestURI(), ex);
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
@@ -103,7 +101,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingArgumentException.class)
     public ResponseEntity<ApiCallError<String>> handleMissingArgumentException(HttpServletRequest request, MissingArgumentException ex) {
-        logger.error("handleMissingArgumentException {}\n", request.getRequestURI(), ex);
+        log.error("handleMissingArgumentException {}\n", request.getRequestURI(), ex);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -112,7 +110,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiCallError<String>> handleInternalServerError(HttpServletRequest request, Exception ex) {
-        logger.error("handleInternalServerError {}\n", request.getRequestURI(), ex);
+        log.error("handleInternalServerError {}\n", request.getRequestURI(), ex);
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
