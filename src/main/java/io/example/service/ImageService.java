@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalTime;
+import java.util.UUID;
 
 @Service
 public class ImageService {
@@ -28,10 +30,15 @@ public class ImageService {
     public void uploadFile(String name, byte[] content) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
 
         User user = Utils.getUser();
+        String fileDir = user.getId().toString();
+
+        long unixTime = System.currentTimeMillis();
+        String fileName = unixTime + "-" + name;
+
         ByteArrayInputStream bais = new ByteArrayInputStream(content);
         try {
             minioClient.putObject(
-                    PutObjectArgs.builder().bucket(defaultBucketName).object( user.getId() +"/" + name).stream(
+                    PutObjectArgs.builder().bucket(defaultBucketName).object( fileDir + "/" + fileName).stream(
                             bais, bais.available(), -1
                     ).build()
             );

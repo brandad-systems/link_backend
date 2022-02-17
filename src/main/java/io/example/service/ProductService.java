@@ -7,19 +7,20 @@ import io.example.domain.model.User;
 import io.example.repository.ProductRepo;
 import io.example.utils.Utils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductService {
     private final ProductRepo productRepo;
 
     @Transactional
     public ProductView create(ProductView productView) {
+        log.error("Test");
         // Get User via Auth
         User user = Utils.getUser();
 
@@ -37,7 +38,7 @@ public class ProductService {
 
         // Return PruductView from saved Product
         ProductView newProductView = new ProductView();
-        newProductView.setProductId(savedProduct.getProductId());
+        newProductView.setId(savedProduct.getProductId().toString());
         newProductView.setTitle(savedProduct.getTitle());
         newProductView.setDescription(savedProduct.getDescription());
         newProductView.setPricePerDay(savedProduct.getPricePerDay());
