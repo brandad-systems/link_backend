@@ -76,14 +76,8 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(defaultBucketName).build());
                 log.info(String.format("Bucket '%s' successfully created.", defaultBucketName));
             }
-        } catch (MinioException e) {
+        } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
             log.error("Error occurred: " + e);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
         }
     }
 
