@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ImageView {
 
-    // combination of {user id}/{timestamp}-{fileName}
+    // combination of {bucketName}/{userId}/{timestamp}-{fileName}
     private String imagePath;
 
 }

@@ -61,7 +61,7 @@ public class TestImagesApi {
         MockMultipartFile file
                 = new MockMultipartFile("file", "image.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "image.jpg".getBytes());
 
-        MvcResult uploadResult = mockMvc.perform(multipart("/api/image").file(file))
+        MvcResult uploadResult = mockMvc.perform(multipart("/api/v1/image").file(file))
                 .andExpect(status().isCreated()).andReturn();
 
 

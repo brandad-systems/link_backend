@@ -9,16 +9,31 @@ import io.example.repository.ProductRepo;
 import io.example.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UncheckedIOException;
 import java.util.Locale;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductService {
     private final ProductRepo productRepo;
+
+    @Value("classpath:productCategories.json")
+    Resource categoriesFile;
+
+    @Value("classpath:productConditions.json")
+    Resource conditionsFile;
 
     @Transactional
     public ProductView create(ProductView productView) {
@@ -52,5 +67,25 @@ public class ProductService {
         newProductView.setPictureIds(savedProduct.getPictureIds());
 
         return newProductView;
+    }
+
+    public String getProductCategories() {
+        try {
+            Reader reader = new InputStreamReader(categoriesFile.getInputStream(), UTF_8);
+            return FileCopyUtils.copyToString(reader);
+        }
+        catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public String getProductConditions() {
+        try {
+            Reader reader = new InputStreamReader(conditionsFile.getInputStream(), UTF_8);
+            return FileCopyUtils.copyToString(reader);
+        }
+        catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

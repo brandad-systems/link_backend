@@ -1,0 +1,14 @@
+[
+  {
+    "category": "Electronics",
+    "subcategories": ["Audio & Hifi", "Foto & Kamera", "Konsolen", "PC/Notebook", "Sonstiges"]
+  },
+  {
+    "category": "Freizeit & Sport",
+    "subcategories": ["Camping", "Kinder-Spielzeug", "Sport-Equipment", "Sonstiges"]
+  },
+  {
+    "category": "Haus & Garten",
+    "subcategories": ["Event-Zubehör", "Garten-Zubehör", "Küchen-Zubehör", "Werkzeug", "Sonstiges"]
+  }
+]

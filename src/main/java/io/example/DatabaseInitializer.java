@@ -6,6 +6,7 @@ import io.example.service.UserService;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
+import io.minio.SetBucketPolicyArgs;
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,8 +77,11 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(defaultBucketName).build());
                 log.info(String.format("Bucket '%s' successfully created.", defaultBucketName));
             }
+            String policy = "{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": [ \"*\" ] }, \"Action\": [ \"s3:GetBucketLocation\", \"s3:ListBucket\", \"s3:ListBucketMultipartUploads\" ], \"Resource\": [ \"arn:aws:s3:::images\" ] }, { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": [ \"*\" ] }, \"Action\": [ \"s3:DeleteObject\", \"s3:GetObject\", \"s3:ListMultipartUploadParts\", \"s3:PutObject\", \"s3:AbortMultipartUpload\" ], \"Resource\": [ \"arn:aws:s3:::images/*\" ] } ] }";
+            minioClient.setBucketPolicy(
+                    SetBucketPolicyArgs.builder().bucket(defaultBucketName).config(policy).build());
         } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
-            log.error("Error occurred: " + e);
+            log.error("S3/Minio initialization error occurred: " + e);
         }
     }
 

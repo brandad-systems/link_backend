@@ -54,7 +54,7 @@ public class TestProductsApi {
         when(productService.create(productView)).thenReturn(created);
 
         //when
-        MvcResult createResult = mockMvc.perform(post("/api/product")
+        MvcResult createResult = mockMvc.perform(post("/api/v1/product")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productView)))
             .andExpect(status().isCreated())
@@ -70,7 +70,7 @@ public class TestProductsApi {
         productView.setTitle(null);
         when(productService.create(productView)).thenThrow(new MissingArgumentException("title"));
 
-        mockMvc.perform(post("/api/product")
+        mockMvc.perform(post("/api/v1/product")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productView)))
             .andExpect(status().isBadRequest());

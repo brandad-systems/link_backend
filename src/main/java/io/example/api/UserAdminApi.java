@@ -24,7 +24,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 @Tag(name = "UserAdmin")
-@RestController @RequestMapping(path = "api/admin/user")
+@RestController @RequestMapping(path = "api/v1/admin/user")
 @RolesAllowed(Role.USER_ADMIN)
 @RequiredArgsConstructor
 public class UserAdminApi {
