@@ -2,6 +2,9 @@ package io.example.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.example.configuration.security.JwtTokenFilter;
+import io.example.configuration.security.JwtTokenUtil;
+import io.example.configuration.security.SecurityConfig;
 import io.example.domain.dto.ImageView;
 import io.example.service.ImageService;
 import org.junit.jupiter.api.Disabled;
@@ -9,11 +12,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -21,14 +29,20 @@ import java.util.List;
 
 import static io.example.util.JsonHelper.fromJson;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@WithUserDetails("ada.lovelace@nix.io")
+//@SpringBootTest
+//@AutoConfigureMockMvc
+//@WithUserDetails("ada.lovelace@nix.io")
+// : nur halbe Laufzeit, weil nur wenige Spring - Componenten initialisiert werden,
+// : aber: keine Security (die muss dann an anderer Stelle getestet werden)
+@WebMvcTest(controllers = ImagesApi.class, excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {SecurityConfig.class, JwtTokenFilter.class}) })
+@AutoConfigureMockMvc(addFilters = false)
+@TestPropertySource(properties = { "myprop=myval", "myprop2=myval2" })
+@Import({ /* only of  contrller depends on a class that we don't want to mock:  MyClazz.class */ })
 public class TestImagesApi {
 
     @Autowired
@@ -39,7 +53,6 @@ public class TestImagesApi {
 
     @MockBean
     private ImageService imageService;
-
 
     @Test
     public void testAddImageToMinio_returnCreated() throws Exception {
@@ -74,7 +87,7 @@ public class TestImagesApi {
 
         ArgumentCaptor<String> originalFileNameCaptor = ArgumentCaptor.forClass(String.class);
         // ArgumentCaptor<String> byteArrayCaptor = ArgumentCaptor.forClass(Byte);
-        verify(imageService, times(2)).uploadFile(originalFileNameCaptor.capture(), anyObject());
+        verify(imageService, times(2)).uploadFile(originalFileNameCaptor.capture(), any());
         // verify(mock, times(2)).doSomething(peopleCaptor.capture());
 
         List<String> originalFileName = originalFileNameCaptor.getAllValues();
