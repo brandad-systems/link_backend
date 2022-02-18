@@ -11,18 +11,10 @@
     </parent>
 
     <groupId>de.bas.link</groupId>
-    <artifactId>java-spring-security-example</artifactId>
+    <artifactId>link-backend</artifactId>
     <version>0.1</version>
-    <name>spring-security</name>
-    <description>Example project for Spring Security</description>
-
-    <developers>
-        <developer>
-            <id>Yoh0xFF</id>
-            <name>Ioram Gordadze</name>
-            <email>Yoh0xFF@gmail.com</email>
-        </developer>
-    </developers>
+    <name>link-backend</name>
+    <description>Backend project for Link App</description>
 
     <licenses>
         <license>
