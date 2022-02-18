@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>io.example</groupId>
+    <groupId>de.bas.link</groupId>
     <artifactId>java-spring-security-example</artifactId>
     <version>0.1</version>
     <name>spring-security</name>

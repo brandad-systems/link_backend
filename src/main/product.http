@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
 
 {
-  "title": "new product 13",
+  "title": "new product 14",
   "description": "prod desc",
   "category": "Electronics/Audio",
   "pricePerDay": 56,
@@ -41,5 +41,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjO
 
 ### Get Product Conditions
 GET http://localhost:8080/api/v1/product/conditions
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
+
+### Get Product By Id
+GET http://localhost:8080/api/v1/product/620f9d19b7b53e38a0bdeeff
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
