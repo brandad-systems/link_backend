@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,6 +30,7 @@ import static de.bas.link.util.JsonHelper.fromJson;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@SpringBootTest
@@ -46,6 +48,9 @@ public class TestImagesApi {
     @Autowired
     private MockMvc mockMvc;
 
+    @Value("${minio.url}")
+    String minioUrl;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -56,11 +61,14 @@ public class TestImagesApi {
     public void testAddImageToMinio_returnCreated() throws Exception {
 
         when(imageService.uploadFile("image.jpg", "image.jpg".getBytes())).thenReturn(new ImageView("123/234-image.jpg"));
+
         MockMultipartFile file
                 = new MockMultipartFile("file", "image.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "image.jpg".getBytes());
 
         MvcResult uploadResult = mockMvc.perform(multipart("/api/v1/image").file(file))
-                .andExpect(status().isCreated()).andReturn();
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", minioUrl + "/" + "123/234-image.jpg"))
+                .andReturn();
 
 
         ImageView imageView = fromJson(objectMapper, uploadResult.getResponse().getContentAsString(), ImageView.class);
