@@ -2,6 +2,7 @@ package de.bas.link.api;
 
 import de.bas.link.domain.dto.ProductView;
 import de.bas.link.service.ProductService;
+import de.bas.link.utils.Utils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +23,7 @@ public class ProductApi {
 
     @PostMapping
     public ResponseEntity<ProductView> create(@RequestBody @Valid ProductView productView) {
-        ProductView createdProduct = productService.create(productView);
+        ProductView createdProduct = productService.create(productView, Utils.getUser().getId());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Location", "api/v1/product/" + createdProduct.getId());
         return new ResponseEntity<>(createdProduct,responseHeaders, HttpStatus.CREATED);
@@ -39,8 +40,7 @@ public class ProductApi {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductView> getProductById(@PathVariable String id)
-    {
+    public ResponseEntity<ProductView> getProductById(@PathVariable String id) {
         return new ResponseEntity<>(productService.getProductById(id),HttpStatus.OK);
     }
 }

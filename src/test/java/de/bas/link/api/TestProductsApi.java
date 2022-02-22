@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bas.link.domain.dto.ProductView;
 import de.bas.link.domain.exception.MissingArgumentException;
 import de.bas.link.service.ProductService;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -51,7 +52,7 @@ public class TestProductsApi {
         //given
         ProductView created = productView;
         created.setId("SOMEID");
-        when(productService.create(productView)).thenReturn(created);
+        when(productService.create(any(ProductView.class), any(ObjectId.class))).thenReturn(created);
 
         //when
         MvcResult createResult = mockMvc.perform(post("/api/v1/product")
@@ -60,7 +61,7 @@ public class TestProductsApi {
             .andExpect(status().isCreated())
             .andReturn();
 
-        verify(productService, times(1)).create(productView);
+        verify(productService, times(1)).create(any(ProductView.class), any(ObjectId.class));
         ProductView createdProductView = fromJson(objectMapper, createResult.getResponse().getContentAsString(), ProductView.class);
         assertNotNull(createdProductView.getId(), "Product id must not be null!");
     }
@@ -68,7 +69,7 @@ public class TestProductsApi {
     @Test
     public void testCreateFailWhenNoTitleIsProvided() throws Exception {
         productView.setTitle(null);
-        when(productService.create(productView)).thenThrow(new MissingArgumentException("title"));
+        when(productService.create(any(ProductView.class), any(ObjectId.class))).thenThrow(new MissingArgumentException("title"));
 
         mockMvc.perform(post("/api/v1/product")
             .contentType(MediaType.APPLICATION_JSON)

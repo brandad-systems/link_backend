@@ -5,9 +5,7 @@ import de.bas.link.domain.enums.Condition;
 import de.bas.link.domain.exception.MissingArgumentException;
 import de.bas.link.domain.exception.NotFoundException;
 import de.bas.link.domain.model.Product;
-import de.bas.link.domain.model.User;
 import de.bas.link.repository.ProductRepo;
-import de.bas.link.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -38,10 +36,7 @@ public class ProductService {
     Resource conditionsFile;
 
     @Transactional
-    public ProductView create(ProductView productView) {
-        // Get User via Auth
-        User user = Utils.getUser();
-
+    public ProductView create(ProductView productView, ObjectId userId) {
         if(productView.getTitle() == null) {
             throw new MissingArgumentException("title");
         }
@@ -54,7 +49,7 @@ public class ProductService {
         product.setCondition(Condition.valueOf(productView.getCondition().toUpperCase(Locale.ROOT)));
         product.setCategory(productView.getCategory());
         product.setPictureIds(productView.getPictureIds());
-        product.setUserId(user.getId());
+        product.setUserId(userId);
 
         Product savedProduct = productRepo.save(product);
 
@@ -92,7 +87,6 @@ public class ProductService {
     }
 
     public ProductView getProductById(String productId) {
-
         Product product = productRepo.findById(new ObjectId(productId)).orElseThrow(() -> new NotFoundException("Id not found"));
         ProductView newProductView = new ProductView();
         newProductView.setId(product.getProductId().toString());
