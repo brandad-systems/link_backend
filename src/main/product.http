@@ -1,11 +1,11 @@
 ### Create Product
 POST http://localhost:8080/api/v1/product
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDU1MzgwMjAsImV4cCI6MTY0Njc0NzYyMH0.xeahL6tCiSO6d-XOyQESl_vZnH3-SKGAYD2Lr7nqJZsYw0WkJe48V2IaaMdf9YCuQMYx3BIA8qG2v8BtzIS4KQ
 
 {
-  "title": "new product 14",
-  "description": "prod desc",
+  "title": "new product 175",
+  "description": "prod descrip",
   "category": "Electronics/Audio",
   "pricePerDay": 56,
   "condition": "NEU",

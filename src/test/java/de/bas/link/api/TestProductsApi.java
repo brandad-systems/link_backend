@@ -51,7 +51,7 @@ public class TestProductsApi {
     public void validPostReturns201andCallsServiceOnceAndReturnsProduct() throws Exception {
         //given
         ProductView created = productView;
-        created.setId("SOMEID");
+        created.setProductId("SOMEID");
         when(productService.create(any(ProductView.class), any(ObjectId.class))).thenReturn(created);
 
         //when
@@ -63,7 +63,7 @@ public class TestProductsApi {
 
         verify(productService, times(1)).create(any(ProductView.class), any(ObjectId.class));
         ProductView createdProductView = fromJson(objectMapper, createResult.getResponse().getContentAsString(), ProductView.class);
-        assertNotNull(createdProductView.getId(), "Product id must not be null!");
+        assertNotNull(createdProductView.getProductId(), "Product id must not be null!");
     }
 
     @Test

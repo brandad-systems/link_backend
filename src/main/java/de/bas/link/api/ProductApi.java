@@ -25,7 +25,7 @@ public class ProductApi {
     public ResponseEntity<ProductView> create(@RequestBody @Valid ProductView productView) {
         ProductView createdProduct = productService.create(productView, Utils.getUser().getId());
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Location", "api/v1/product/" + createdProduct.getId());
+        responseHeaders.set("Location", "api/v1/product/" + createdProduct.getProductId());
         return new ResponseEntity<>(createdProduct,responseHeaders, HttpStatus.CREATED);
     }
 

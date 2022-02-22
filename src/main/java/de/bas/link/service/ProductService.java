@@ -4,6 +4,7 @@ import de.bas.link.domain.dto.ProductView;
 import de.bas.link.domain.enums.Condition;
 import de.bas.link.domain.exception.MissingArgumentException;
 import de.bas.link.domain.exception.NotFoundException;
+import de.bas.link.domain.mapper.ProductMapper;
 import de.bas.link.domain.model.Product;
 import de.bas.link.repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
@@ -40,29 +41,10 @@ public class ProductService {
         if(productView.getTitle() == null) {
             throw new MissingArgumentException("title");
         }
-
-        // Convert ProductView to Product
-        Product product = new Product();
-        product.setTitle(productView.getTitle());
-        product.setDescription(productView.getDescription());
-        product.setPricePerDay(productView.getPricePerDay());
-        product.setCondition(Condition.valueOf(productView.getCondition().toUpperCase(Locale.ROOT)));
-        product.setCategory(productView.getCategory());
-        product.setPictureIds(productView.getPictureIds());
+        Product product = ProductMapper.INSTANCE.productViewToProduct(productView);
         product.setUserId(userId);
-
         Product savedProduct = productRepo.save(product);
-
-        // Return ProductView from saved Product
-        ProductView newProductView = new ProductView();
-        newProductView.setId(savedProduct.getProductId().toString());
-        newProductView.setTitle(savedProduct.getTitle());
-        newProductView.setDescription(savedProduct.getDescription());
-        newProductView.setPricePerDay(savedProduct.getPricePerDay());
-        newProductView.setCondition(savedProduct.getCondition().toString());
-        newProductView.setCategory(savedProduct.getCategory());
-        newProductView.setPictureIds(savedProduct.getPictureIds());
-
+        ProductView newProductView = ProductMapper.INSTANCE.productToProductView(savedProduct);
         return newProductView;
     }
 
@@ -88,14 +70,7 @@ public class ProductService {
 
     public ProductView getProductById(String productId) {
         Product product = productRepo.findById(new ObjectId(productId)).orElseThrow(() -> new NotFoundException("Id not found"));
-        ProductView newProductView = new ProductView();
-        newProductView.setId(product.getProductId().toString());
-        newProductView.setTitle(product.getTitle());
-        newProductView.setDescription(product.getDescription());
-        newProductView.setPricePerDay(product.getPricePerDay());
-        newProductView.setCondition(product.getCondition().toString());
-        newProductView.setCategory(product.getCategory());
-        newProductView.setPictureIds(product.getPictureIds());
+        ProductView newProductView =ProductMapper.INSTANCE.productToProductView(product);
         return newProductView;
 
     }
