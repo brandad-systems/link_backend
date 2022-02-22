@@ -2,9 +2,9 @@ package de.bas.link.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bas.link.domain.dto.ProductView;
-import de.bas.link.domain.exception.MissingArgumentException;
 import de.bas.link.service.ProductService;
 import org.bson.types.ObjectId;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,17 +38,18 @@ public class TestProductsApi {
 
     private final ProductView productView = new ProductView();
 
-    public TestProductsApi() {
+    @BeforeEach
+    public void setUp() {
         this.productView.setTitle("My Title");
-        this.productView.setDescription("My Desc");
+        this.productView.setDescription("My Description very long");
         this.productView.setCategory("Electronics/Audio");
         this.productView.setCondition("GUT");
-        this.productView.setPricePerDay(55);
+        this.productView.setPricePerDay(55.0);
         this.productView.setPictureIds(new ArrayList<>());
     }
 
     @Test
-    public void validPostReturns201andCallsServiceOnceAndReturnsProduct() throws Exception {
+    public void createProductSucceedsWhenAllFieldsAreCorrect() throws Exception {
         //given
         ProductView created = productView;
         created.setProductId("SOMEID");
@@ -67,13 +68,72 @@ public class TestProductsApi {
     }
 
     @Test
-    public void testCreateFailWhenNoTitleIsProvided() throws Exception {
+    public void createProductFailsWhenNoTitleIsProvided() throws Exception {
         productView.setTitle(null);
-        when(productService.create(any(ProductView.class), any(ObjectId.class))).thenThrow(new MissingArgumentException("title"));
 
         mockMvc.perform(post("/api/v1/product")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productView)))
             .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createProductFailsWhenNoDescriptionIsProvided() throws Exception {
+        productView.setDescription(null);
+
+        mockMvc.perform(post("/api/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productView)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createProductFailsWhenShortDescriptionIsProvided() throws Exception {
+        productView.setDescription("123456789");
+
+        mockMvc.perform(post("/api/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productView)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createProductFailsWhenNoCategoryIsProvided() throws Exception {
+        productView.setCategory(null);
+
+        mockMvc.perform(post("/api/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productView)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createProductFailsWhenNoConditionIsProvided() throws Exception {
+        productView.setCondition(null);
+
+        mockMvc.perform(post("/api/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productView)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createProductFailsWhenNoPriceIsProvided() throws Exception {
+        productView.setPricePerDay(null);
+
+        mockMvc.perform(post("/api/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productView)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createProductFailsWhenNegativePriceIsProvided() throws Exception {
+        productView.setPricePerDay(-1.0);
+
+        mockMvc.perform(post("/api/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productView)))
+                .andExpect(status().isBadRequest());
     }
 }

@@ -2,7 +2,6 @@ package de.bas.link.service;
 
 import de.bas.link.domain.dto.ProductView;
 import de.bas.link.domain.enums.Condition;
-import de.bas.link.domain.exception.MissingArgumentException;
 import de.bas.link.domain.model.Product;
 import de.bas.link.repository.ProductRepo;
 import org.bson.types.ObjectId;
@@ -20,8 +19,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
-
-
     private ProductService productService;
 
     @Mock
@@ -34,29 +31,13 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void createThrowsExceptionIfNoTitleIsProvided() {
-        // Test if productService.create() throws MissingArgumentException if no title is provided
-        ProductView productView = new ProductView();
-        productView.setCategory("Category");
-        productView.setCondition("Condition");
-        productView.setPricePerDay(1);
-        productView.setPictureIds(Arrays.asList("1", "2"));
-        productView.setDescription("Description");
-        try {
-            productService.create(productView, new ObjectId("61fcdc3c030a75799143988b"));
-        } catch (MissingArgumentException e) {
-            assertThat(e.getMessage()).isEqualTo("Argument 'title' is required.");
-        }
-    }
-
-    @Test
     public void createSavesProductEntity() {
         // Test if productService.create() executes productRepo.save once
         ProductView productView = new ProductView();
         productView.setTitle("Title");
         productView.setCategory("Category");
         productView.setCondition("NEU");
-        productView.setPricePerDay(1);
+        productView.setPricePerDay(1.0);
         productView.setPictureIds(Arrays.asList("1", "2"));
         productView.setDescription("Description");
 

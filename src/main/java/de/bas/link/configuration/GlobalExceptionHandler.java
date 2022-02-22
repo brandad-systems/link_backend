@@ -1,6 +1,5 @@
 package de.bas.link.configuration;
 
-import de.bas.link.domain.exception.MissingArgumentException;
 import de.bas.link.domain.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -99,15 +98,6 @@ public class GlobalExceptionHandler {
                 .body(new ApiCallError<>("Access denied!", List.of(ex.getMessage())));
     }
 
-    @ExceptionHandler(MissingArgumentException.class)
-    public ResponseEntity<ApiCallError<String>> handleMissingArgumentException(HttpServletRequest request, MissingArgumentException ex) {
-        log.error("handleMissingArgumentException {}\n", request.getRequestURI(), ex);
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(new ApiCallError<>("Argument missing!", List.of(ex.getMessage())));
-    }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiCallError<String>> handleInternalServerError(HttpServletRequest request, Exception ex) {
         log.error("handleInternalServerError {}\n", request.getRequestURI(), ex);
@@ -119,7 +109,6 @@ public class GlobalExceptionHandler {
 
     @Data @NoArgsConstructor @AllArgsConstructor
     public static class ApiCallError<T> {
-
         private String message;
         private List<T> details;
 

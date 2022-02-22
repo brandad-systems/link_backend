@@ -1,8 +1,6 @@
 package de.bas.link.service;
 
 import de.bas.link.domain.dto.ProductView;
-import de.bas.link.domain.enums.Condition;
-import de.bas.link.domain.exception.MissingArgumentException;
 import de.bas.link.domain.exception.NotFoundException;
 import de.bas.link.domain.mapper.ProductMapper;
 import de.bas.link.domain.model.Product;
@@ -20,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
-import java.util.Locale;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -38,9 +35,6 @@ public class ProductService {
 
     @Transactional
     public ProductView create(ProductView productView, ObjectId userId) {
-        if(productView.getTitle() == null) {
-            throw new MissingArgumentException("title");
-        }
         Product product = ProductMapper.INSTANCE.productViewToProduct(productView);
         product.setUserId(userId);
         Product savedProduct = productRepo.save(product);

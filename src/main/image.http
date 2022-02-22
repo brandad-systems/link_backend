@@ -1,7 +1,7 @@
 ### Upload Picture
-POST http://localhost:8080/api/v1/image
+POST {{baseUrl}}/image
 Content-Type: multipart/form-data; boundary=boundary
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
+Authorization: Bearer {{accessToken}}
 
 --boundary
 Content-Disposition: form-data; name="file"; filename="image.jpg"

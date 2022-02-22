@@ -1,33 +1,28 @@
 ### Create Product
-POST http://localhost:8080/api/v1/product
+POST {{baseUrl}}/product
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDU1MzgwMjAsImV4cCI6MTY0Njc0NzYyMH0.xeahL6tCiSO6d-XOyQESl_vZnH3-SKGAYD2Lr7nqJZsYw0WkJe48V2IaaMdf9YCuQMYx3BIA8qG2v8BtzIS4KQ
+Authorization: Bearer {{accessToken}}
 
 {
-  "title": "new product 175",
-  "description": "prod descrip",
+  "title": "new product 16",
+  "description": "prod descsdfsdf",
   "category": "Electronics/Audio",
-  "pricePerDay": 56,
+  "pricePerDay": 1,
   "condition": "NEU",
   "pictureIds": [
     "123", "456"
   ]
 }
 
-### Create Product
-POST http://localhost:8080/api/v1/images
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
-
-
 ### Create Invalid Product
-POST http://localhost:8080/api/v1/product
+POST {{baseUrl}}/product
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
+Authorization: Bearer {{accessToken}}
 
 {
-  "description": "prod desc",
+  "title": "new product 16",
+  "description": "prod descsdfsdf",
   "category": "Electronics/Audio",
-  "pricePerDay": 56,
   "condition": "NEU",
   "pictureIds": [
     "123", "456"
@@ -35,16 +30,16 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjO
 }
 
 ### Get Product Categories
-GET http://localhost:8080/api/v1/product/categories
+GET {{baseUrl}}/product/categories
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
+Authorization: Bearer {{accessToken}}
 
 ### Get Product Conditions
-GET http://localhost:8080/api/v1/product/conditions
+GET {{baseUrl}}/product/conditions
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
+Authorization: Bearer {{accessToken}}
 
 ### Get Product By Id
-GET http://localhost:8080/api/v1/product/620f9d19b7b53e38a0bdeeff
+GET {{baseUrl}}/product/6214e5bdefb9b73d45575293
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MWZiZTA2MmMwZjEwMzIzNDdjOTliNWYsYWRhLmxvdmVsYWNlQG5peC5pbyIsImlzcyI6ImV4YW1wbGUuaW8iLCJpYXQiOjE2NDQ5MzMwMzksImV4cCI6MTY0NTUzNzgzOX0.7HbXWsO8f4YL4WUEPdIIF6-iHe1E7wTlLUlDT-jTZ0yd6l1LEFWCoAj4hLqFIRXidlADLCAu2XnTzuCV4BIqNQ
+Authorization: Bearer {{accessToken}}
