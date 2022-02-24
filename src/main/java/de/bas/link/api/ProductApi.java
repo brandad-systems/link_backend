@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Tag(name = "Product")
 @RestController
@@ -30,16 +31,16 @@ public class ProductApi {
     }
 
     @GetMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getProductCategories() {
+    public ResponseEntity<String> getProductCategories() throws IOException {
         return new ResponseEntity<>(productService.getProductCategories(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/conditions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getProductConditions() {
+    public ResponseEntity<String> getProductConditions() throws IOException {
         return new ResponseEntity<>(productService.getProductConditions(), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ProductView> getProductById(@PathVariable String id) {
         return new ResponseEntity<>(productService.getProductById(id),HttpStatus.OK);
     }

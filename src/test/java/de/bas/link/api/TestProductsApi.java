@@ -15,12 +15,15 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static de.bas.link.util.JsonHelper.fromJson;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -135,5 +138,23 @@ public class TestProductsApi {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productView)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void categoriesEndpointRevealsNoStacktraceOnError() throws Exception {
+        when(productService.getProductCategories()).thenThrow(new FileNotFoundException("Internal server error"));
+
+        mockMvc.perform(get("/api/v1/product/categories"))
+                .andExpect(jsonPath("trace").doesNotExist())
+                .andExpect(jsonPath("details").exists());
+    }
+
+    @Test
+    public void conditionsEndpointRevealsNoStacktraceOnError() throws Exception {
+        when(productService.getProductConditions()).thenThrow(new FileNotFoundException("Internal server error"));
+
+        mockMvc.perform(get("/api/v1/product/conditions"))
+                .andExpect(jsonPath("trace").doesNotExist())
+                .andExpect(jsonPath("details").exists());
     }
 }

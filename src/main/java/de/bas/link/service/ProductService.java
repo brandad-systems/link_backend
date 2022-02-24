@@ -42,24 +42,12 @@ public class ProductService {
         return newProductView;
     }
 
-    public String getProductCategories() {
-        try {
-            Reader reader = new InputStreamReader(categoriesFile.getInputStream(), UTF_8);
-            return FileCopyUtils.copyToString(reader);
-        }
-        catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+    public String getProductCategories() throws IOException {
+        return readFileContent(categoriesFile);
     }
 
-    public String getProductConditions() {
-        try {
-            Reader reader = new InputStreamReader(conditionsFile.getInputStream(), UTF_8);
-            return FileCopyUtils.copyToString(reader);
-        }
-        catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+    public String getProductConditions() throws IOException {
+        return readFileContent(conditionsFile);
     }
 
     public ProductView getProductById(String productId) {
@@ -67,5 +55,10 @@ public class ProductService {
         ProductView newProductView =ProductMapper.INSTANCE.productToProductView(product);
         return newProductView;
 
+    }
+
+    private String readFileContent(Resource file) throws IOException {
+        Reader reader = new InputStreamReader(file.getInputStream(), UTF_8);
+        return FileCopyUtils.copyToString(reader);
     }
 }
