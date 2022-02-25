@@ -2,10 +2,7 @@ package de.bas.link.domain.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Data
@@ -22,7 +19,7 @@ public class ProductView {
     @NotEmpty
     private String category;
 
-    @Positive
+    @PositiveOrZero
     @NotNull
     private Double pricePerDay;
 

@@ -141,6 +141,20 @@ public class TestProductsApi {
     }
 
     @Test
+    public void createProductSucceedsWhenPriceIsZero() throws Exception {
+        productView.setPricePerDay(0.0);
+
+        ProductView created = productView;
+        created.setProductId("SOMEID");
+        when(productService.create(any(ProductView.class), any(ObjectId.class))).thenReturn(created);
+
+        mockMvc.perform(post("/api/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(productView)))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
     public void categoriesEndpointRevealsNoStacktraceOnError() throws Exception {
         when(productService.getProductCategories()).thenThrow(new FileNotFoundException("Internal server error"));
 

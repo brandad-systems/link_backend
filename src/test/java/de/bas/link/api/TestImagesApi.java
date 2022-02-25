@@ -3,10 +3,10 @@ package de.bas.link.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.bas.link.configuration.security.JwtTokenFilter;
-import de.bas.link.configuration.security.JwtTokenUtil;
 import de.bas.link.configuration.security.SecurityConfig;
 import de.bas.link.domain.dto.ImageView;
 import de.bas.link.service.ImageService;
+import de.bas.link.utils.Utils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -24,6 +24,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import javax.validation.ValidationException;
 import java.util.List;
 
 import static de.bas.link.util.JsonHelper.fromJson;
@@ -60,23 +61,30 @@ public class TestImagesApi {
     @Test
     public void testAddImageToMinio_returnCreated() throws Exception {
 
-        when(imageService.uploadFile("image.jpg", "image.jpg".getBytes())).thenReturn(new ImageView("123/234-image.jpg"));
+        when(imageService.uploadFile("image.jpg", Utils.hexStringToByteArray("FFD8FFE000104A"))).thenReturn(new ImageView("123/234-image.jpg"));
 
         MockMultipartFile file
-                = new MockMultipartFile("file", "image.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "image.jpg".getBytes());
+                = new MockMultipartFile("file", "image.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, Utils.hexStringToByteArray("FFD8FFE000104A"));
 
         MvcResult uploadResult = mockMvc.perform(multipart("/api/v1/image").file(file))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", minioUrl + "/" + "123/234-image.jpg"))
                 .andReturn();
 
-
         ImageView imageView = fromJson(objectMapper, uploadResult.getResponse().getContentAsString(), ImageView.class);
+    }
 
-        assertThat(imageView.getImagePath()).isEqualTo("123/234-image.jpg");
+    @Test
+    public void invalidFileIsRejected() throws Exception {
+        String fileName = "file.zip";
+        byte[] fileContent = Utils.hexStringToByteArray("504B030414");
+        when(imageService.uploadFile(fileName, fileContent)).thenThrow(new ValidationException("Filetype is not an image."));
 
-        verify(imageService, times(1)).uploadFile(file.getOriginalFilename(), file.getBytes());
+        MockMultipartFile file
+                = new MockMultipartFile("file", fileName, MediaType.MULTIPART_FORM_DATA_VALUE, fileContent);
 
+        mockMvc.perform(multipart("/api/v1/image").file(file))
+                .andExpect(status().isBadRequest());
     }
 
 

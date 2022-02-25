@@ -5,16 +5,19 @@ import de.bas.link.domain.model.User;
 import de.bas.link.utils.Utils;
 import io.minio.*;
 import io.minio.errors.MinioException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ValidationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 @Service
+@Slf4j
 public class ImageService {
 
     @Autowired
@@ -24,6 +27,10 @@ public class ImageService {
     String defaultBucketName;
 
     public ImageView uploadFile(String name, byte[] content) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
+        if(!Utils.isImageStream(content)) {
+            log.error(String.format("File '%s' is not an image!", name));
+            throw new ValidationException("Filetype is not an image.");
+        }
 
         User user = Utils.getUser();
         String fileDir = user.getId().toString();
@@ -33,9 +40,7 @@ public class ImageService {
         String imagePath = fileDir + "/" + fileName;
 
         ByteArrayInputStream bais = new ByteArrayInputStream(content);
-
         try {
-
             minioClient.putObject(
                     PutObjectArgs.builder().bucket(defaultBucketName).object(imagePath).stream(
                             bais, bais.available(), -1

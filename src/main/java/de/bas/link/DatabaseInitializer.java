@@ -77,7 +77,8 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(defaultBucketName).build());
                 log.info(String.format("Bucket '%s' successfully created.", defaultBucketName));
             }
-            String policy = "{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": [ \"*\" ] }, \"Action\": [ \"s3:GetBucketLocation\", \"s3:ListBucket\", \"s3:ListBucketMultipartUploads\" ], \"Resource\": [ \"arn:aws:s3:::images\" ] }, { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": [ \"*\" ] }, \"Action\": [ \"s3:DeleteObject\", \"s3:GetObject\", \"s3:ListMultipartUploadParts\", \"s3:PutObject\", \"s3:AbortMultipartUpload\" ], \"Resource\": [ \"arn:aws:s3:::images/*\" ] } ] }";
+            // Custom AccessPolicy with ReadOnly Permission
+            String policy = "{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Principal\": { \"AWS\": [ \"*\" ] }, \"Action\": [ \"s3:GetObject\" ], \"Resource\": [ \"arn:aws:s3:::images/*\" ] } ] }";
             minioClient.setBucketPolicy(
                     SetBucketPolicyArgs.builder().bucket(defaultBucketName).config(policy).build());
         } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
