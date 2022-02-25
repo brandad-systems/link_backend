@@ -171,4 +171,19 @@ public class TestProductsApi {
                 .andExpect(jsonPath("trace").doesNotExist())
                 .andExpect(jsonPath("details").exists());
     }
+
+    @Test
+    public void getProductReturnsCorrectProduct() throws Exception {
+        productView.setProductId("6214e5bdefb9b73d45575293");
+        when(productService.getProductById("6214e5bdefb9b73d45575293")).thenReturn(productView);
+
+        mockMvc.perform(get("/api/v1/product/6214e5bdefb9b73d45575293"))
+                .andExpect(jsonPath("productId").isNotEmpty())
+                .andExpect(jsonPath("description").isNotEmpty())
+                .andExpect(jsonPath("title").isNotEmpty())
+                .andExpect(jsonPath("category").isNotEmpty())
+                .andExpect(jsonPath("pricePerDay").isNotEmpty())
+                .andExpect(jsonPath("condition").isNotEmpty())
+                .andExpect(jsonPath("pictureIds").exists());
+    }
 }
