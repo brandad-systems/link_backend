@@ -1,6 +1,7 @@
 package de.bas.link.api;
 
 import de.bas.link.domain.dto.ProductView;
+import de.bas.link.domain.dto.RentalView;
 import de.bas.link.service.ProductService;
 import de.bas.link.utils.Utils;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,5 +44,10 @@ public class ProductApi {
     @GetMapping("/{id}")
     public ResponseEntity<ProductView> getProductById(@PathVariable String id) {
         return new ResponseEntity<>(productService.getProductById(id),HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<RentalView> getProducts() {
+        return new ResponseEntity<>(productService.getProductByUserId(Utils.getUser().getId()),HttpStatus.OK);
     }
 }
