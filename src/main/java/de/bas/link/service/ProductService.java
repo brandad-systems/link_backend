@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -39,8 +40,7 @@ public class ProductService {
         Product product = ProductMapper.INSTANCE.productViewToProduct(productView);
         product.setUserId(userId);
         Product savedProduct = productRepo.save(product);
-        ProductView newProductView = ProductMapper.INSTANCE.productToProductView(savedProduct);
-        return newProductView;
+        return ProductMapper.INSTANCE.productToProductView(savedProduct);
     }
 
     public String getProductCategories() throws IOException {
@@ -53,9 +53,7 @@ public class ProductService {
 
     public ProductView getProductById(String productId) {
         Product product = productRepo.findById(new ObjectId(productId)).orElseThrow(() -> new NotFoundException("Id not found"));
-        ProductView newProductView =ProductMapper.INSTANCE.productToProductView(product);
-        return newProductView;
-
+        return ProductMapper.INSTANCE.productToProductView(product);
     }
 
     private String readFileContent(Resource file) throws IOException {
@@ -63,11 +61,8 @@ public class ProductService {
         return FileCopyUtils.copyToString(reader);
     }
 
-    public RentalView getProductByUserId(ObjectId userId) {
-
+    public List<ProductView> getProductsByUserId(ObjectId userId) {
         List<Product> productList = productRepo.findByUserId(userId);
-       // productList.stream().map(product -> log.info(product.toString()).collect(Collectors.toList()));
-        productList.forEach(System.out::println);
-        return null;
+        return productList.stream().map(ProductMapper.INSTANCE::productToProductView).collect(Collectors.toList());
     }
 }

@@ -59,7 +59,7 @@ public class TestProductsApi {
         when(productService.create(any(ProductView.class), any(ObjectId.class))).thenReturn(created);
 
         //when
-        MvcResult createResult = mockMvc.perform(post("/api/v1/product")
+        MvcResult createResult = mockMvc.perform(post("/api/v1/products")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productView)))
             .andExpect(status().isCreated())
@@ -74,7 +74,7 @@ public class TestProductsApi {
     public void createProductFailsWhenNoTitleIsProvided() throws Exception {
         productView.setTitle(null);
 
-        mockMvc.perform(post("/api/v1/product")
+        mockMvc.perform(post("/api/v1/products")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(productView)))
             .andExpect(status().isBadRequest());
@@ -84,7 +84,7 @@ public class TestProductsApi {
     public void createProductFailsWhenNoDescriptionIsProvided() throws Exception {
         productView.setDescription(null);
 
-        mockMvc.perform(post("/api/v1/product")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productView)))
                 .andExpect(status().isBadRequest());
@@ -94,7 +94,7 @@ public class TestProductsApi {
     public void createProductFailsWhenShortDescriptionIsProvided() throws Exception {
         productView.setDescription("123456789");
 
-        mockMvc.perform(post("/api/v1/product")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productView)))
                 .andExpect(status().isBadRequest());
@@ -104,7 +104,7 @@ public class TestProductsApi {
     public void createProductFailsWhenNoCategoryIsProvided() throws Exception {
         productView.setCategory(null);
 
-        mockMvc.perform(post("/api/v1/product")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productView)))
                 .andExpect(status().isBadRequest());
@@ -114,7 +114,7 @@ public class TestProductsApi {
     public void createProductFailsWhenNoConditionIsProvided() throws Exception {
         productView.setCondition(null);
 
-        mockMvc.perform(post("/api/v1/product")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productView)))
                 .andExpect(status().isBadRequest());
@@ -124,7 +124,7 @@ public class TestProductsApi {
     public void createProductFailsWhenNoPriceIsProvided() throws Exception {
         productView.setPricePerDay(null);
 
-        mockMvc.perform(post("/api/v1/product")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productView)))
                 .andExpect(status().isBadRequest());
@@ -134,7 +134,7 @@ public class TestProductsApi {
     public void createProductFailsWhenNegativePriceIsProvided() throws Exception {
         productView.setPricePerDay(-1.0);
 
-        mockMvc.perform(post("/api/v1/product")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productView)))
                 .andExpect(status().isBadRequest());
@@ -148,7 +148,7 @@ public class TestProductsApi {
         created.setProductId("SOMEID");
         when(productService.create(any(ProductView.class), any(ObjectId.class))).thenReturn(created);
 
-        mockMvc.perform(post("/api/v1/product")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(productView)))
                 .andExpect(status().isCreated());
@@ -158,7 +158,7 @@ public class TestProductsApi {
     public void categoriesEndpointRevealsNoStacktraceOnError() throws Exception {
         when(productService.getProductCategories()).thenThrow(new FileNotFoundException("Internal server error"));
 
-        mockMvc.perform(get("/api/v1/product/categories"))
+        mockMvc.perform(get("/api/v1/products/categories"))
                 .andExpect(jsonPath("trace").doesNotExist())
                 .andExpect(jsonPath("details").exists());
     }
@@ -167,7 +167,7 @@ public class TestProductsApi {
     public void conditionsEndpointRevealsNoStacktraceOnError() throws Exception {
         when(productService.getProductConditions()).thenThrow(new FileNotFoundException("Internal server error"));
 
-        mockMvc.perform(get("/api/v1/product/conditions"))
+        mockMvc.perform(get("/api/v1/products/conditions"))
                 .andExpect(jsonPath("trace").doesNotExist())
                 .andExpect(jsonPath("details").exists());
     }
@@ -177,7 +177,7 @@ public class TestProductsApi {
         productView.setProductId("6214e5bdefb9b73d45575293");
         when(productService.getProductById("6214e5bdefb9b73d45575293")).thenReturn(productView);
 
-        mockMvc.perform(get("/api/v1/product/6214e5bdefb9b73d45575293"))
+        mockMvc.perform(get("/api/v1/products/6214e5bdefb9b73d45575293"))
                 .andExpect(jsonPath("productId").isNotEmpty())
                 .andExpect(jsonPath("description").isNotEmpty())
                 .andExpect(jsonPath("title").isNotEmpty())

@@ -1,7 +1,6 @@
 package de.bas.link.api;
 
 import de.bas.link.domain.dto.ProductView;
-import de.bas.link.domain.dto.RentalView;
 import de.bas.link.service.ProductService;
 import de.bas.link.utils.Utils;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,10 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Tag(name = "Product")
 @RestController
-@RequestMapping(path = "api/v1/product")
+@RequestMapping(path = "api/v1/products")
 @RequiredArgsConstructor
 public class ProductApi {
 
@@ -27,7 +27,7 @@ public class ProductApi {
     public ResponseEntity<ProductView> create(@RequestBody @Valid ProductView productView) {
         ProductView createdProduct = productService.create(productView, Utils.getUser().getId());
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Location", "api/v1/product/" + createdProduct.getProductId());
+        responseHeaders.set("Location", "api/v1/products/" + createdProduct.getProductId());
         return new ResponseEntity<>(createdProduct,responseHeaders, HttpStatus.CREATED);
     }
 
@@ -47,7 +47,7 @@ public class ProductApi {
     }
 
     @GetMapping
-    public ResponseEntity<RentalView> getProducts() {
-        return new ResponseEntity<>(productService.getProductByUserId(Utils.getUser().getId()),HttpStatus.OK);
+    public ResponseEntity<List<ProductView>> getProducts() {
+        return new ResponseEntity<>(productService.getProductsByUserId(Utils.getUser().getId()),HttpStatus.OK);
     }
 }

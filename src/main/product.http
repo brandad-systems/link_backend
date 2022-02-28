@@ -1,5 +1,5 @@
 ### Create Product
-POST {{baseUrl}}/product
+POST {{baseUrl}}/products
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
@@ -15,7 +15,7 @@ Authorization: Bearer {{accessToken}}
 }
 
 ### Create Invalid Product
-POST {{baseUrl}}/product
+POST {{baseUrl}}/products
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
@@ -30,16 +30,21 @@ Authorization: Bearer {{accessToken}}
 }
 
 ### Get Product Categories
-GET {{baseUrl}}/product/categories
+GET {{baseUrl}}/products/categories
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 ### Get Product Conditions
-GET {{baseUrl}}/product/conditions
+GET {{baseUrl}}/products/conditions
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 ### Get Product By Id
-GET {{baseUrl}}/product/6214e5bdefb9b73d45575293
+GET {{baseUrl}}/products/6214e5bdefb9b73d45575293
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Get Product By Id
+GET {{baseUrl}}/products
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
