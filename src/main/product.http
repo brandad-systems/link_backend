@@ -48,3 +48,8 @@ Authorization: Bearer {{accessToken}}
 GET {{baseUrl}}/products
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
+
+### Get Products Of User
+GET {{baseUrl}}/product
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
