@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -41,9 +42,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // : aber: keine Security (die muss dann an anderer Stelle getestet werden)
 @WebMvcTest(controllers = ImagesApi.class, excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {SecurityConfig.class, JwtTokenFilter.class}) })
+
 @AutoConfigureMockMvc(addFilters = false)
-@TestPropertySource(properties = { "myprop=myval", "myprop2=myval2" })
-@Import({ /* only of  contrller depends on a class that we don't want to mock:  MyClazz.class */ })
+//@TestPropertySource(properties = { "myprop=myval", "myprop2=myval2" })
+//@Import({ /* only of  contrller depends on a class that we don't want to mock:  MyClazz.class */ })
 public class TestImagesApi {
 
     @Autowired

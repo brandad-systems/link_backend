@@ -61,8 +61,9 @@ public class ProductService {
         return FileCopyUtils.copyToString(reader);
     }
 
-    public List<ProductView> getProductsByUserId(ObjectId userId) {
+    public List<ProductView> getProductByUserId(ObjectId userId) {
         List<Product> productList = productRepo.findByUserId(userId);
         return productList.stream().map(ProductMapper.INSTANCE::productToProductView).collect(Collectors.toList());
     }
+
 }
